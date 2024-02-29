@@ -13,6 +13,9 @@ fs.appendFile("./Async_CRUDE/Async_DRUDE.txt", "\nI am Sohan", () => {
 });
 
 fs.readFile("./Async_CRUDE/Async_DRUDE.txt", "utf-8", (err, data) => {
+  if (err) {
+    console.error(err);
+  }
   console.log(data);
 });
 

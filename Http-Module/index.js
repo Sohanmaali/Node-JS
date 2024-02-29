@@ -7,7 +7,7 @@ const server = http.createServer((req, res) => {
     res.end("Hello i am About Page");
   } else if (req.url == "/contact") {
     res.end("Hello i am Contact");
-  } else { 
+  } else {
     res.writeHead(404, { "content-type": "text/html" });
     res.end("404 Erroe Page note found");
   }
@@ -15,4 +15,3 @@ const server = http.createServer((req, res) => {
 server.listen("8000", "127.0.0.1", () => {
   console.log("listen port 8000");
 });
- 
