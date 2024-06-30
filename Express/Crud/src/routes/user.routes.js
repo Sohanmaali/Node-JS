@@ -6,13 +6,23 @@ import {
   signup,
   updateUser,
 } from "../controller/user.controller.js";
+import auth from "../middelwares/auth.js";
+import { body } from "express-validator";
+
 const userRouter = Router();
 
-userRouter.post("/signup", signup);
+userRouter.post(
+  "/signup",
+  body("password", "password is required").notEmpty(),
+  body("email", "email id required").notEmpty(),
+  body("email", "invalide email id").isEmail(),
 
-userRouter.get("/get-all-user", getAllUser);
+  signup
+);
 
-userRouter.get("/getuser/:id", getUserById);
+userRouter.get("/get-all-user", auth, getAllUser);
+
+userRouter.get("/getuser/:id", auth, getUserById);
 
 userRouter.post("/updateuser/:id", updateUser);
 

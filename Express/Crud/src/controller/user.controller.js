@@ -1,9 +1,14 @@
 import user from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { body, validationResult } from "express-validator";
 
 const signup = async (req, res) => {
   try {
+    const isError = validationResult(req);
+    if (!isError.isEmpty()) {
+      res.status(401).json({ massage: isError });
+    }
     console.log(req.body);
     const data = await user.create(req.body);
     if (!data) res.status(400).json({ massage: "user not save" });
@@ -42,7 +47,10 @@ const login = async (req, res) => {
     if (!userExist) res.status(404).json({ massage: "something want wrong" });
 
     if (await bcrypt.compare(password, userExist.password)) {
-      const token = generatetoken(userExist.email);
+      const token = generatetoken({
+        email: userExist.email,
+        id: userExist._id,
+      });
 
       console.log("TOKEN   ", token);
 
